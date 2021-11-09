@@ -143,7 +143,7 @@ void specialKeys(int key, int x, int y) {
 int main(int argc, char** argv) {
     glutInit(&argc, argv);  //
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);   //GLUT_DOUBLE GLUT_DEPTH
-
+//
     glutInitWindowSize(700, 400);   //
     glutInitWindowPosition(90, 90);   //
     glutCreateWindow("Project"); //
