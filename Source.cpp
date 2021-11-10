@@ -381,6 +381,13 @@ void R() {
 
 }
 
+void S()
+{
+    float S_co[] = { 1, 0, 0 };
+    _(0, 0, .15, S_co, 1, 1, false, true, false, false, false, .05);
+    _(0, -.3, .15, S_co, 1, 1, false, true, false, true, false, -.05);
+}
+
 void T()
 {
     float T_co[] = { 1, 0, 0 };
@@ -499,7 +506,7 @@ void display() {
         GL_POLYGON (any no. of points)
     */
 
-    Q();
+    S();
     //glColor3f(0, 1, 0);
     //glBegin(GL_POINTS);
     //glVertex2f(0, 0);
