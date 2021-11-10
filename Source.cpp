@@ -74,7 +74,7 @@ void _(float x, float y, float r, float* rgb, float x_sc = 1, float y_sc = 1, bo
         }
         y = r * sin(i) * y_sc;
         if (!full && _top) {
-            status = _check(y, i, right, _x * x_sc, 1);
+            status = _check(y, i, right, _y * y_sc, 1);
             i = status.second;
             if (status.first)
                 continue;
@@ -93,7 +93,7 @@ void _(float x, float y, float r, float* rgb, float x_sc = 1, float y_sc = 1, bo
         }
         y = r * sin(i) * y_sc;
         if (!full && _top) {
-            status = _check(y, i, right, _x * x_sc, .5);
+            status = _check(y, i, right, _y * y_sc, .5);
             i = status.second;
             if (status.first)
                 continue;
@@ -398,7 +398,7 @@ void T()
 
 void U() {
     float U_co[] = { 1, 0, 0 };
-    _(-.3, .3, .25, U_co, .5, .9, false, false, true, false, true, .05);
+    _(-.3, .3, .25, U_co, .5, .9, false, false, true, false, true, 0, .015);
 
     float U_co2[] = { 1, 0, 0 };
     vertex<float> U_ve2[] = { vertex<float>(-.426, .3),
@@ -406,7 +406,7 @@ void U() {
         vertex<float>(-.177, .3),
         vertex<float>(-.177, .65)
     };
-    draw(GL_LINES, U_ve2, U_co2, 4, 7);
+    draw(GL_LINES, U_ve2, U_co2, 4, 20);
 }
 
 void V()
@@ -499,7 +499,7 @@ void display() {
         GL_POLYGON (any no. of points)
     */
 
-    Q();
+    U();
     //glColor3f(0, 1, 0);
     //glBegin(GL_POINTS);
     //glVertex2f(0, 0);
