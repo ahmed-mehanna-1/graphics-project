@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include <utility>
 #include <GL/glut.h>
 #include <math.h>
 #define PI 3.141592653589793238
@@ -39,28 +40,49 @@ void draw(GLenum type, vertex<T>* v, float* rgb, int v_no, bool _3d = false) {
     return;
 }
 
-void _(float x, float y, float r) {
+pair<bool, float> _check(float x, float y, float i, bool right, float _x, float plus) {
+    if (right && x < _x)
+        return pair<bool, float>(true, i + plus);
+    else if (!right && x > _x)
+        return pair<bool, float>(true, i + plus);
+    //else if (top && y < _y)
+    //    return pair<bool, float>(true, i + plus);
+    //else if (!top && y > _y)
+    //    return pair<bool, float>(true, i + plus);
+
+    return pair<bool, float>(false, i);
+}
+
+void _(float x, float y, float r, float x_sc = 1, float y_sc = 1, bool full = true, bool right = true, float _x = 0) {
     float base_x = x;
+    float base_y = y;
+    cout << base_x << endl;
+    pair<bool, float> status;
+    
     glBegin(GL_POINTS);
     for (float i = 0; i <= 360;) {
-        x = r * cos(i);
-        if (x < base_x) {
-            i += 1;
+        x = r * cos(i) * x_sc;
+        if (!full)
+            status = _check(x, y, i, right, _x * x_sc, 1);
+        i = status.second;
+        if (status.first)
             continue;
-        }
-        y = r * sin(i);
+        y = r * sin(i) * y_sc;
         glVertex2d(x, y);
+        cout << x << "  " << _x << endl;
 
         i += .5;
-        x = r * cos(i);
-        if (x < base_x) {
-            i += .5;
+
+        x = r * cos(i) * x_sc;
+        if (!full)
+            status = _check(x, y, i, right, _x * x_sc, .5);
+        i = status.second;
+        if (status.first)
             continue;
-        }
-        y = r * sin(i);
+        y = r * sin(i) * y_sc;
         glVertex2d(x, y);
         i += .5;
-        cout << x << "  " << base_x << endl;
+        cout << x << "  " << _x << endl;
     }
     glEnd();
 }
@@ -101,14 +123,14 @@ void display() {
         GL_POLYGON (any no. of points)
     */
 
-    A();
-    //glColor3f(0, 1, 0);
-    //glBegin(GL_POINTS);
-    //glVertex2f(0, 0);
-    //glEnd();
+    //A();
+    glColor3f(0, 1, 0);
+    glBegin(GL_POINTS);
+    glVertex2f(1, 1);
+    glEnd();
 
-    //glColor3f(1, 0, 0);
-    //_(0, 0, .5);
+    glColor3f(1, 0, 0);
+    _(1, 1, .5, .5, 1, false, true, -.15);
     //_circle2();
 
     glutSwapBuffers();  //  in Double Buffers => glutSwapBuffers(hDC)
