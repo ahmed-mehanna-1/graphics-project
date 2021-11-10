@@ -368,6 +368,4 @@ int main(int argc, char** argv) {
     glutDisplayFunc(display);   //  Seting the function that will create the graphics
     //glutSpecialFunc(specialKeys);
     glutMainLoop(); // To keep the window running
-}
-
 
