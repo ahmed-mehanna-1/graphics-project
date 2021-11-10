@@ -80,6 +80,222 @@ void A() {
     draw(GL_LINES, A_ve2, A_co2, 2);
 }
 
+void E()
+{
+    float E_co[] = { 1, 0, 0 };
+    vertex<float> E_ve[] = { vertex<float>(.25, .5),
+        vertex<float>(0, .5),
+        vertex<float>(0, 0),
+        vertex<float>(.25, 0),
+    };
+    draw(GL_LINE_STRIP, E_ve, E_co, 4);
+
+    float E_co2[] = { 1, 0, 0 };
+    vertex<float> E_ve2[] = { vertex<float>(0, .25),
+        vertex<float>(.25, .25)
+    };
+    draw(GL_LINES, E_ve2, E_co2, 2);
+
+}
+void F()
+{
+    float F_co[] = { 1, 0, 0 };
+    vertex<float> F_ve[] = { vertex<float>(.25, .5),
+        vertex<float>(0, .5),
+        vertex<float>(0, -.25),
+       
+    };
+    draw(GL_LINE_STRIP, F_ve, F_co, 3);
+
+    float F_co2[] = { 1, 0, 0 };
+    vertex<float> F_ve2[] = { vertex<float>(0, .125),
+        vertex<float>(.25, .125)
+    };
+    draw(GL_LINES, F_ve2, F_co2, 2);
+
+}
+
+void H()
+{
+    float H_co[] = { 1, 0, 0 };
+    vertex<float> H_ve[] = { vertex<float>(0, .5),
+        vertex<float>(0, -.5)
+    };
+    draw(GL_LINES, H_ve, H_co, 2);
+
+    float H_co2[] = { 1, 0, 0 };
+    vertex<float> H_ve2[] = { vertex<float>(.25, .5),
+        vertex<float>(.25, -.5)
+    };
+    draw(GL_LINES, H_ve2, H_co2, 2);
+
+    float H_co3[] = { 1, 0, 0 };
+    vertex<float> H_ve3[] = { vertex<float>(0, 0),
+        vertex<float>(.25, 0)
+    };
+    draw(GL_LINES, H_ve3, H_co3, 2);
+}
+
+void I()
+{
+    float I_co[] = { 1, 0, 0 };
+    vertex<float> I_ve[] = { vertex<float>(0, .5),
+        vertex<float>(.5, .5)
+    };
+    draw(GL_LINES, I_ve, I_co, 2);
+
+    float I_co2[] = { 1, 0, 0 };
+    vertex<float> I_ve2[] = { vertex<float>(0, -.5),
+        vertex<float>(.5, -.5)
+    };
+    draw(GL_LINES, I_ve2, I_co2, 2);
+
+    float I_co3[] = { 1, 0, 0 };
+    vertex<float> I_ve3[] = { vertex<float>(.25, .5),
+        vertex<float>(.25, -.5)
+    };
+    draw(GL_LINES, I_ve3, I_co3, 2);
+}
+
+void K()
+{
+    float K_co[] = { 1, 0, 0 };
+    vertex<float> K_ve[] = { vertex<float>(0, .5),
+        vertex<float>(0, -.5)
+    };
+    draw(GL_LINES, K_ve, K_co, 2);
+
+    float K_co2[] = { 1, 0, 0 };
+    vertex<float> K_ve2[] = { vertex<float>(.35, .5),
+        vertex<float>(0, 0)
+    };
+    draw(GL_LINES, K_ve2, K_co2, 2);
+
+    float K_co3[] = { 1, 0, 0 };
+    vertex<float> K_ve3[] = { vertex<float>(.35, -.5),
+        vertex<float>(0, 0)
+    };
+    draw(GL_LINES, K_ve3, K_co3, 2);
+
+}
+
+void L()
+{
+    float L_co[] = { 1, 0, 0 };
+    vertex<float> L_ve[] = { vertex<float>(0, .75),
+        vertex<float>(0, 0),
+        vertex<float>(.3, 0),
+    };
+    draw(GL_LINE_STRIP, L_ve, L_co, 3);
+}
+void M()
+{
+    float M_co[] = { 1, 0, 0 };
+    vertex<float> M_ve[] = { vertex<float>(0, 0),
+        vertex<float>(0, .5),
+        vertex<float>(.25, .25),
+        vertex<float>(.5, .5),
+        vertex<float>(.5, 0)
+    };
+    draw(GL_LINE_STRIP, M_ve, M_co, 5);
+}
+
+void N()
+{
+    float N_co[] = { 1, 0, 0 };
+    vertex<float> N_ve[] = { vertex<float>(0, 0),
+        vertex<float>(0, .5),
+        vertex<float>(.25, 0),
+        vertex<float>(.25, .5),
+    };
+    draw(GL_LINE_STRIP, N_ve, N_co, 4);
+
+}
+
+void T()
+{
+    float T_co[] = { 1, 0, 0 };
+    vertex<float> T_ve[] = { vertex<float>(0, .5),
+        vertex<float>(.5, .5)
+    };
+    draw(GL_LINES, T_ve, T_co, 2);
+
+    float T_co2[] = { 1, 0, 0 };
+    vertex<float> T_ve2[] = { vertex<float>(.25, .5),
+        vertex<float>(.25, -.5)
+    };
+    draw(GL_LINES, T_ve2, T_co2, 2);
+}
+
+void V()
+{
+    float V_co[] = { 1, 0, 0 };
+    vertex<float> V_ve[] = { vertex<float>(0, .5),
+        vertex<float>(.125, 0),
+        vertex<float>(.25, .5),
+    };
+    draw(GL_LINE_STRIP, V_ve, V_co, 3);
+}
+
+void W()
+{
+    float W_co[] = { 1, 0, 0 };
+    vertex<float> W_ve[] = { vertex<float>(0, .5),
+        vertex<float>(.125, 0),
+        vertex<float>(.25, .5),
+        vertex<float>(.375, 0),
+        vertex<float>(.5, .5)
+    };
+    draw(GL_LINE_STRIP, W_ve, W_co, 5);
+}
+
+void X()
+{
+    float X_co[] = { 1, 0, 0 };
+    vertex<float> X_ve[] = { vertex<float>(0, .5),
+        vertex<float>(.25, 0)
+    };
+    draw(GL_LINE_STRIP, X_ve, X_co, 2);
+    
+    float X_co2[] = { 1, 0, 0 };
+    vertex<float> X_ve2[] = { vertex<float>(.25, .5),
+        vertex<float>(0, 0)
+    };
+    draw(GL_LINE_STRIP, X_ve2, X_co2, 2);
+}
+
+void Y()
+{
+    float Y_co[] = { 1, 0, 0 };
+    vertex<float> Y_ve[] = { vertex<float>(0, .5),
+        vertex<float>(.25, 0)
+    };
+    draw(GL_LINE_STRIP, Y_ve, Y_co, 2);
+
+    float Y2_co[] = { 1, 0, 0 };
+    vertex<float> Y2_ve[] = { vertex<float>(.5, .5),
+        vertex<float>(.25, 0)
+    };
+    draw(GL_LINE_STRIP, Y2_ve, Y2_co, 2);
+
+    float Y3_co[] = { 1, 0, 0 };
+    vertex<float> Y3_ve[] = { vertex<float>(.25, 0),
+        vertex<float>(.25, -.5)
+    };
+    draw(GL_LINE_STRIP, Y3_ve, Y3_co, 2);
+
+}
+void Z()
+{
+    float Z_co[] = { 1, 0, 0 };
+    vertex<float> Z_ve[] = { vertex<float>(0, 0),
+        vertex<float>(.5, 0),
+        vertex<float>(0, -.5),
+        vertex<float>(.5, -.5)
+    };
+    draw(GL_LINE_STRIP, Z_ve, Z_co, 4);
+}
+
 void display() {
 
     glClearColor(1, 1, 1, 1);
@@ -101,7 +317,7 @@ void display() {
         GL_POLYGON (any no. of points)
     */
 
-    A();
+    Y();
     //glColor3f(0, 1, 0);
     //glBegin(GL_POINTS);
     //glVertex2f(0, 0);
@@ -155,4 +371,3 @@ int main(int argc, char** argv) {
 }
 
 
-// el2ota 
