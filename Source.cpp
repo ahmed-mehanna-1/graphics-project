@@ -499,7 +499,7 @@ void display() {
         GL_POLYGON (any no. of points)
     */
 
-    U();
+    Q();
     //glColor3f(0, 1, 0);
     //glBegin(GL_POINTS);
     //glVertex2f(0, 0);
