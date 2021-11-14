@@ -7,6 +7,8 @@
 //#include "GL/freeglut.h"
 #include "GL/gl.h"
 #include <math.h>
+#include <map>
+#include <functional>
 #define PI 3.141592653589793238
 using namespace std;
 
@@ -80,8 +82,10 @@ void _(
     float _right = 0,
     float _left = 0, 
     float _top = 0, 
-    float _bottom = 0) {
+    float _bottom = 0,
+    float ps = 6) {
 
+    glPointSize(ps);
     glColor3f(rgb[0], rgb[1], rgb[2]);
     float base_x = v.x;
     float base_y = v.y;
@@ -417,13 +421,14 @@ void R() {
 
 void S() {
     float S_co[] = { 1, 0, 0 };
-    _(vertex<float>(-.37, .55), .25, S_co, .7, 1.2, false, true, false, false, true, .2, 1, 1, -.15);
+    float x = .7;
+    _(vertex<float>(-.37, .45), .175, S_co, .7, 1.2, false, true, false, false, true, .14, .7, .7, -.105, 5);
     float S_co2[] = { 1, 0, 0 };
-    _(vertex<float>(-.4, -.15), .25, S_co2, .7, 1.2, false, false, true, true, false, 1, -.2, .15, 1);
+    _(vertex<float>(-.4, 0), .175, S_co2, .7, 1.2, false, false, true, true, false, .7, -.14, .105, .7, 5);
 
     float S_co3[] = { 1, 0, 0 };
-    vertex<float> S_ve[] = { vertex<float>(-.52, .375), vertex<float>(-.25, .01) };
-    draw(GL_LINES, S_ve, S_co3, 2, false, 10);
+    vertex<float> S_ve[] = { vertex<float>(-.475, .335), vertex<float>(-.3, .12) };
+    draw(GL_LINES, S_ve, S_co3, 2, false, 7);
 }
 
 void T()
@@ -625,16 +630,16 @@ void h() {
 }
 
 void i() {
-    glPointSize(3.0);
     float i_co[] = {1, 0, 0};
-    _(vertex<float>(0, .2), .05, i_co, .3, .5);
+    vertex<float> i_ve[] = {vertex<float>(0, .2)};
+    draw(GL_POINTS, i_ve, i_co, 1, false, 5, 8);
 
     float i_co2[] = {1, 0, 0};
-    vertex<float> i_ve[] = {
+    vertex<float> i_ve2[] = {
         vertex<float>(0, .15),
         vertex<float>(0, -.05)
     };
-    draw(GL_LINES, i_ve, i_co2, 2, false, 7);
+    draw(GL_LINES, i_ve2, i_co2, 2, false, 7);
 }
 
 void j() {
@@ -645,9 +650,9 @@ void j() {
     vertex<float> j_ve[] = { vertex<float>(-.24, .08), vertex<float>(-.24, .4) };
     draw(GL_LINES, j_ve, j_co, 2, false, 7);
 
-    glPointSize(3.0);
     float i_co[] = {1, 0, 0};
-    _(vertex<float>(-.24, .45), .05, i_co, .3, .5);
+    vertex<float> i_ve[] = {vertex<float>(-.24, .45)};
+    draw(GL_POINTS, i_ve, i_co, 1, false, 5, 8);
 }
 
 void k() {
@@ -752,14 +757,15 @@ void r()
 
 void s()
 {
-    float S_co[] = { 1, 0, 0 };
-    _(vertex<float>(-.37, .55), .25, S_co, .7, 1.2, false, true, false, false, true, .2, 1, 1, -.15);
-    float S_co2[] = { 1, 0, 0 };
-    _(vertex<float>(-.4, -.15), .25, S_co2, .7, 1.2, false, false, true, true, false, 1, -.2, .15, 1);
+    float x = .7;
+    float s_co[] = { 1, 0, 0 };
+    _(vertex<float>(-.37, .35), .1225, s_co, .7, 1.2, false, true, false, false, true, .098, .49, .49, -.0735, 4);
+    float s_co2[] = { 1, 0, 0 };
+    _(vertex<float>(-.4, 0), .1225, s_co2, .7, 1.2, false, false, true, true, false, .49, -.098, .0735, .49, 4);
 
-    float S_co3[] = { 1, 0, 0 };
-    vertex<float> S_ve[] = { vertex<float>(-.52, .375), vertex<float>(-.25, .01) };
-   // draw(GL_LINES, S_ve, S_co3, 2, false, 10);
+    float s_co3[] = { 1, 0, 0 };
+    vertex<float> s_ve[] = { vertex<float>(-.45, .29), vertex<float>(-.33, .08) };
+    draw(GL_LINES, s_ve, s_co3, 2, false, 7);
 }
 
 void t()
@@ -850,7 +856,7 @@ void y()
    draw(GL_LINE_STRIP, y2_ve, y2_co, 2);
    glPointSize(3);
    float y_co3[] = { 1, 0, 0 };
-   _(vertex<float>(-.071, 0), .01, y_co3, 1.5,1.7, false, false, false, true, false, 0, .05);
+   _(vertex<float>(-.071, 0), .01, y_co3, 1.5,1.7, false, false, false, true, false, 0, .05, 0, 0, 4);
 }
 
 void z()
@@ -863,12 +869,69 @@ void z()
     };
     draw(GL_LINE_STRIP, z_ve, z_co, 4);
 }
+
+
+map<int, function<void()>> letters = {
+        {0, A},
+        {1, B},
+        {2, C},
+        {3, D},
+        {4, E},
+        {5, F},
+        {6, G},
+        {7, H},
+        {8, I},
+        {9, J},
+        {10, K},
+        {11, L},
+        {12, M},
+        {13, N},
+        {14, O},
+        {15, P},
+        {16, Q},
+        {17, R},
+        {18, S},
+        {19, T},
+        {20, U},
+        {21, V},
+        {22, W},
+        {23, X},
+        {24, Y},
+        {25, Z},
+        {26, a},
+        {27, b},
+        {28, c},
+        {29, d},
+        {30, e},
+        {31, f},
+        {32, g},
+        {33, h},
+        {34, i},
+        {35, j},
+        {36, k},
+        {37, l},
+        {38, m},
+        {39, n},
+        {40, o},
+        {41, p},
+        {42, q},
+        {43, r},
+        {44, s},
+        {45, t},
+        {46, u}, 
+        {47, v},
+        {48, w},
+        {49, x},
+        {50, y},
+        {51, z}
+    };
+int index = 32;
 void display() {
 
     glClearColor(1, 1, 1, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glPointSize(6.0);
+    // glPointSize(6.0);
     glLineWidth(5);
 
     //gluOrtho2D(0, 1, 0, 1);
@@ -884,7 +947,8 @@ void display() {
         GL_POLYGON (any no. of points)
     */
 
-    q();
+    // g();
+    letters[index]();
 
     //glColor3f(0, 1, 0);
     //glBegin(GL_POINTS);
@@ -922,20 +986,24 @@ void display3d() {
 }
 
 void specialKeys(int key, int x, int y) {
-    if (key == GLUT_KEY_RIGHT)
-        rotate_y += 5;
-    else if (key == GLUT_KEY_LEFT)
-        rotate_y -= 5;
-    else if (key == GLUT_KEY_UP)
-        rotate_x += 5;
+    // if (key == GLUT_KEY_RIGHT)
+    //     rotate_y += 5;
+    // else if (key == GLUT_KEY_LEFT)
+    //     rotate_y -= 5;
+    if (key == GLUT_KEY_UP) 
+        // rotate_x += 5;
+        index = (index+1 > 51) ? 0: ++index;
     else if (key == GLUT_KEY_DOWN)
-        rotate_x -= 5;
+        index = (index-1 < 0)? 51: --index;
 
     glutPostRedisplay();
 
 }
 
 int main(int argc, char** argv) {
+
+    
+
     glutInit(&argc, argv);  //
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);   //GLUT_DOUBLE GLUT_DEPTH
 //
@@ -945,7 +1013,7 @@ int main(int argc, char** argv) {
     //glEnable(GLUT_DEPTH);
 
     glutDisplayFunc(display);   //  Seting the function that will create the graphics
-    //glutSpecialFunc(specialKeys);
+    glutSpecialFunc(specialKeys);
     glutMainLoop(); // To keep the window running
 
 }
