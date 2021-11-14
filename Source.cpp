@@ -3,8 +3,8 @@
 // cc main.c -lglut -lGLU -lGL
 #include <iostream>
 #include <utility>
-// #include <GL/glut.h>
-#include "GL/freeglut.h"
+ #include <GL/glut.h>
+//#include "GL/freeglut.h"
 #include "GL/gl.h"
 #include <math.h>
 #define PI 3.141592653589793238
@@ -87,7 +87,7 @@ void _(
     float base_y = v.y;
     float x1, y1, x2, y2;
 
-    cout << "hello2" << endl;
+    //cout << "hello2" << endl;
     pair<bool, float> status;
 
     glBegin(GL_POINTS);
@@ -374,15 +374,12 @@ void P() {
     float P_co[] = { 1, 0, 0 };
     vertex<float> P_ve[] = { vertex<float>(-.3, 0),
         vertex<float>(-.3, .6),
-        vertex<float>(-.3, .58),
-        vertex<float>(-.25, .58),
-        vertex<float>(-.3, .3),
-        vertex<float>(-.25, .3)
+
     };
-    draw(GL_LINES, P_ve, P_co, 6, false, 7);
+    draw(GL_LINES, P_ve, P_co, 2, false, 7);
 
     float P_co2[] = { 1, 0, 0 };
-    _(vertex<float>(-.295, .445), .15, P_co2, .8, 1, false, false, true, false, false, 0, .05);
+    _(vertex<float>(-.331, .445), .15, P_co2, .8, 1, false, false, true, false, false, 0, .05);
 }
 
 void Q() {
@@ -709,6 +706,163 @@ void n() {
     draw(GL_LINES, n_ve, n_co2, 4, false, 6);
 }
 
+void o()
+{
+    float o_co[] = { 1, 0, 0 };
+    _(vertex<float>(-.3, .3), .135, o_co, .65);
+}
+
+void p()
+{
+   
+    float p_co[] = {1, 0, 0};
+    vertex<float> p_ve[] = { vertex<float>(-.3, 0),
+        vertex<float>(-.3, .3),
+    };
+    draw(GL_LINES, p_ve, p_co, 2, false, 7);
+
+    float p_co2[] = { 1, 0, 0 };
+   _(vertex<float>(-.341, .2), .095, p_co2, 1, 1.1, false, false, true, false, false, 0, .05);
+}
+
+void q()
+{
+    float q_co[] = { 1, 0, 0 };
+    vertex<float> q_ve[] = { vertex<float>(-.3, 0),
+        vertex<float>(-.3, .3),
+    };
+    draw(GL_LINES, q_ve, q_co, 2, false, 7);
+
+    float q_co2[] = { 1, 0, 0 };
+    _(vertex<float>(-.3, .21), .075, q_co2, 1, 1.1, false, true, false, false, false, 0, .05);
+}
+
+void r()
+{
+    float r_co[] = { 1, 0, 0 };
+    vertex<float> r_ve[] = { vertex<float>(-.3, 0),
+        vertex<float>(-.3, .3),
+    };
+    draw(GL_LINES, r_ve, r_co, 2, false, 7);
+    
+    float r_co2[] = { 1, 0, 0 };
+    _(vertex<float>(-.25, .23), .045, r_co2, 1, .6, false, false, false, false, true, 0, .05);
+
+}
+
+void s()
+{
+    float S_co[] = { 1, 0, 0 };
+    _(vertex<float>(-.37, .55), .25, S_co, .7, 1.2, false, true, false, false, true, .2, 1, 1, -.15);
+    float S_co2[] = { 1, 0, 0 };
+    _(vertex<float>(-.4, -.15), .25, S_co2, .7, 1.2, false, false, true, true, false, 1, -.2, .15, 1);
+
+    float S_co3[] = { 1, 0, 0 };
+    vertex<float> S_ve[] = { vertex<float>(-.52, .375), vertex<float>(-.25, .01) };
+   // draw(GL_LINES, S_ve, S_co3, 2, false, 10);
+}
+
+void t()
+{
+    float t_co[] = { 1, 0, 0 };
+    vertex<float> t_ve[] = { vertex<float>(-.3, 0),
+        vertex<float>(-.3, .3),
+    };
+    draw(GL_LINES, t_ve, t_co, 2, false, 7);
+
+    float t_co2[] = { 1, 0, 0 };
+    vertex<float> t_ve2[] = { vertex<float>(-.25, .2),
+        vertex<float>(-.35, .2),
+    };
+    draw(GL_LINES, t_ve2, t_co2, 2, false, 7);
+
+    float t_co3[] = { 1, 0, 0 };
+    _(vertex<float>(-.2857, 0), .015, t_co3, 1, 1.4, false, false, false, true, false, 0, .05);
+}
+
+void u()
+{
+    float u_co[] = { 1, 0, 0 };
+    vertex<float> u_ve[] = { vertex<float>(-.3, 0),
+        vertex<float>(-.3, .2),
+    };
+    draw(GL_LINES, u_ve, u_co, 2, false, 7);
+
+    float u2_co[] = { 1, 0, 0 };
+    vertex<float> u2_ve[] = { vertex<float>(-.15, -.15),
+        vertex<float>(-.15, .2),
+    };
+    draw(GL_LINES, u2_ve, u2_co, 2, false, 7);
+
+    float u_co3[] = { 1, 0, 0 };
+    _(vertex<float>(-.225, 0), .08, u_co3, .93, 1.7, false, false, false, true, false, 0, .05);
+}
+
+void v()
+{
+    float v_co[] = { 1, 0, 0 };
+    vertex<float> v_ve[] = { vertex<float>(0, .25),
+        vertex<float>(.06, 0),
+        vertex<float>(.125, .25),
+    };
+    draw(GL_LINE_STRIP, v_ve, v_co, 3);
+}
+
+void w()
+{
+    float w_co[] = { 1, 0, 0 };
+    vertex<float> w_ve[] = { vertex<float>(0, .25),
+        vertex<float>(.06, 0),
+        vertex<float>(.125, .25),
+        vertex<float>(.1875, 0),
+        vertex<float>(.25, .25)
+    };
+    draw(GL_LINE_STRIP, w_ve, w_co, 5);
+}
+
+void x()
+{
+    float x_co[] = { 1, 0, 0 };
+    vertex<float> x_ve[] = { vertex<float>(0, .25),
+        vertex<float>(.125, 0)
+    };
+    draw(GL_LINE_STRIP, x_ve, x_co, 2);
+
+    float x_co2[] = { 1, 0, 0 };
+    vertex<float> x_ve2[] = { vertex<float>(.125, .25),
+        vertex<float>(0, 0)
+    };
+    draw(GL_LINE_STRIP, x_ve2, x_co2, 2);
+}
+
+void y()
+{
+    float y_co[] = { 1, 0, 0 };
+    vertex<float> y_ve[] = { vertex<float>(-.055, 0),
+        vertex<float>(0, .225)
+    };
+    draw(GL_LINE_STRIP, y_ve, y_co, 2);
+
+    float y2_co[] = { 1, 0, 0 };
+    vertex<float> y2_ve[] = { vertex<float>(-.055, .225),
+        vertex<float>(-.0275, .1125)
+    };
+   draw(GL_LINE_STRIP, y2_ve, y2_co, 2);
+   glPointSize(3);
+   float y_co3[] = { 1, 0, 0 };
+   _(vertex<float>(-.071, 0), .01, y_co3, 1.5,1.7, false, false, false, true, false, 0, .05);
+}
+
+void z()
+{
+    float z_co[] = { 1, 0, 0 };
+    vertex<float> z_ve[] = { vertex<float>(0, 0),
+        vertex<float>(.175, 0),
+        vertex<float>(0, -.175),
+        vertex<float>(.175, -.175)
+    };
+    draw(GL_LINE_STRIP, z_ve, z_co, 4);
+}
 void display() {
 
     glClearColor(1, 1, 1, 1);
@@ -730,7 +884,8 @@ void display() {
         GL_POLYGON (any no. of points)
     */
 
-    n();
+    q();
+
     //glColor3f(0, 1, 0);
     //glBegin(GL_POINTS);
     //glVertex2f(0, 0);
