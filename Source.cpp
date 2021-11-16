@@ -620,34 +620,34 @@ void o(float _co[3] = def_color)
 void p(float _co[3] = def_color)
 {
     vertex<float> p_ve[] = {
-        vertex<float>(-.3, 0),
-        vertex<float>(-.3, .3),
+        vertex<float>(-.85, .7),
+        vertex<float>(-.85, .9),
     };
     draw(GL_LINES, p_ve, _co, 2, false, 7);
 
-    _(vertex<float>(-.341, .2), .095, _co, 1, 1.1, false, false, true, false, false, 0, .05);
+    _(vertex<float>(-.9, .83), .083, _co, 1, 0.9, false, false, true, false, false, 0, .05);
 }
 
 void q(float _co[3] = def_color)
 {
     vertex<float> q_ve[] = {
-        vertex<float>(-.3, 0),
-        vertex<float>(-.3, .3),
+        vertex<float>(-.85, .7),
+        vertex<float>(-.85, .9),
     };
     draw(GL_LINES, q_ve, _co, 2, false, 7);
 
-    _(vertex<float>(-.3, .21), .075, _co, 1, 1.1, false, true, false, false, false, 0, .05);
+    _(vertex<float>(-.85, .84), .06, _co, 1, 0.9, false, true, false, false, false, 0, .05);
 }
 
 void r(float _co[3] = def_color)
 {
     vertex<float> r_ve[] = {
-        vertex<float>(-.3, 0),
-        vertex<float>(-.3, .3),
+        vertex<float>(-.85, .7),
+        vertex<float>(-.85, .9),
     };
     draw(GL_LINES, r_ve, _co, 2, false, 7);
 
-    _(vertex<float>(-.25, .23), .045, _co, 1, .6, false, false, false, false, true, 0, .05);
+    _(vertex<float>(-.805, .845), .045, _co, 1, .6, false, false, false, false, true, 0, .05);
 }
 
 void s(float _co[3] = def_color)
@@ -662,87 +662,87 @@ void s(float _co[3] = def_color)
 void t(float _co[3] = def_color)
 {
     vertex<float> t_ve[] = {
-        vertex<float>(-.3, 0),
-        vertex<float>(-.3, .3),
+        vertex<float>(-.85, .7),
+        vertex<float>(-.85, .9),
     };
     draw(GL_LINES, t_ve, _co, 2, false, 7);
 
     vertex<float> t_ve2[] = {
-        vertex<float>(-.25, .2),
-        vertex<float>(-.35, .2),
+        vertex<float>(-.82, .85),
+        vertex<float>(-.88, .85),
     };
     draw(GL_LINES, t_ve2, _co, 2, false, 7);
 
-    _(vertex<float>(-.2857, 0), .015, _co, 1, 1.4, false, false, false, true, false, 0, .05);
+    _(vertex<float>(-.8363, .7), .015, _co, 1, 1.4, false, false, false, true, false, 0, .05);
 }
 
 void u(float _co[3] = def_color)
 {
     vertex<float> u_ve[] = {
-        vertex<float>(-.3, 0),
-        vertex<float>(-.3, .2),
+        vertex<float>(-.81, .7),
+        vertex<float>(-.81, .9),
     };
     draw(GL_LINES, u_ve, _co, 2, false, 7);
 
     vertex<float> u2_ve[] = {
-        vertex<float>(-.15, -.15),
-        vertex<float>(-.15, .2),
+        vertex<float>(-.9, .8),
+        vertex<float>(-.9, .9),
     };
     draw(GL_LINES, u2_ve, _co, 2, false, 7);
 
-    _(vertex<float>(-.225, 0), .08, _co, .93, 1.7, false, false, false, true, false, 0, .05);
+    _(vertex<float>(-.85525, .8), .0488, _co, .93, 1.7, false, false, false, true, false, 0, .05);
 }
 
 void v(float _co[3] = def_color)
 {
     vertex<float> v_ve[] = {
-        vertex<float>(0, .25),
-        vertex<float>(.06, 0),
-        vertex<float>(.125, .25),
+        vertex<float>(-.9, .9),
+        vertex<float>(-.85, .7),
+        vertex<float>(-.80, .9),
     };
     draw(GL_LINE_STRIP, v_ve, _co, 3);
 }
 
 void w(float _co[3] = def_color)
 {
-    vertex<float> w_ve[] = {vertex<float>(0, .25),
-                            vertex<float>(.06, 0),
-                            vertex<float>(.125, .25),
-                            vertex<float>(.1875, 0),
-                            vertex<float>(.25, .25)};
+    vertex<float> w_ve[] = {vertex<float>(-.95, .9),
+                            vertex<float>(-.92, .7),
+                            vertex<float>(-.89, .85),
+                            vertex<float>(-.86, .7),
+                            vertex<float>(-.83, .9)};
     draw(GL_LINE_STRIP, w_ve, _co, 5);
 }
 
 void x(float _co[3] = def_color)
 {
-    vertex<float> x_ve[] = {vertex<float>(0, .25),
-                            vertex<float>(.125, 0)};
+    vertex<float> x_ve[] = {vertex<float>(-.9, .9),
+                            vertex<float>(-.8, .7)};
     draw(GL_LINE_STRIP, x_ve, _co, 2);
 
-    vertex<float> x_ve2[] = {vertex<float>(.125, .25),
-                             vertex<float>(0, 0)};
+    vertex<float> x_ve2[] = {vertex<float>(-.8, .9),
+                             vertex<float>(-.9, .7)};
     draw(GL_LINE_STRIP, x_ve2, _co, 2);
 }
 
 void y(float _co[3] = def_color)
 {
-    vertex<float> y_ve[] = {vertex<float>(-.055, 0),
-                            vertex<float>(0, .225)};
+    vertex<float> y_ve[] = {vertex<float>(-.8, .9),
+                            vertex<float>(-.85, .7)};
     draw(GL_LINE_STRIP, y_ve, _co, 2);
 
-    vertex<float> y2_ve[] = {vertex<float>(-.055, .225),
-                             vertex<float>(-.0275, .1125)};
+    vertex<float> y2_ve[] = {vertex<float>(-.85, .9),
+                             vertex<float>(-.825, .8)};
     draw(GL_LINE_STRIP, y2_ve, _co, 2);
     glPointSize(3);
-    _(vertex<float>(-.071, 0), .01, _co, 1.5, 1.7, false, false, false, true, false, 0, .05, 0, 0, 4);
+    _(vertex<float>(-.864, .71), .01, _co, 1.5, 1.7, false, false, false, true, false, 0, .05, 0, 0, 4);
 }
 
 void z(float _co[3] = def_color)
 {
-    vertex<float> z_ve[] = {vertex<float>(0, 0),
-                            vertex<float>(.175, 0),
-                            vertex<float>(0, -.175),
-                            vertex<float>(.175, -.175)};
+    vertex<float> z_ve[] = {vertex<float>(-.9, .9),
+                            vertex<float>(-.8, .9),
+                            vertex<float>(-.9, .7),
+                            vertex<float>(-.8, .7)};
     draw(GL_LINE_STRIP, z_ve, _co, 4);
 }
 
@@ -885,23 +885,23 @@ void display()
 
     // shift_y = 0;
     // shift_x = 0;
-    // float _co[] = {1, 0, 0};
-    // vertex<float> ve[] = {
-    //     vertex<float>(-1, 1),
-    //     vertex<float>(-.7, 1),
-    //     vertex<float>(-.7, .5),
-    //     vertex<float>(-1, .5)};
-    // draw(GL_LINE_STRIP, ve, _co, 4);
+     float _co[] = {1, 0, 0};
+    vertex<float> ve[] = {
+        vertex<float>(-1, 1),
+         vertex<float>(-.7, 1),
+         vertex<float>(-.7, .5),
+         vertex<float>(-1, .5)};
+     draw(GL_LINE_STRIP, ve, _co, 4);
 
-    // // rgb(255, 171, 76)
-    // float _co2[] = {0, .4, 0};
-    // vertex<float> p[] = {
-    //     vertex<float>(-.85, 1),
-    //     vertex<float>(-.85, .75),
-    //     vertex<float>(-.85, .5),
-    //     vertex<float>(-1, .75),
-    //     vertex<float>(-.7, .75)};
-    // draw(GL_POINTS, p, _co2, 5);
+    // rgb(255, 171, 76)
+     float _co2[] = {0, .4, 0};
+     vertex<float> p[] = {
+         vertex<float>(-.85, 1),
+         vertex<float>(-.85, .75),
+         vertex<float>(-.85, .5),
+         vertex<float>(-1, .75),
+         vertex<float>(-.7, .75)};
+     draw(GL_POINTS, p, _co2, 5);
 
     // letters[letter](def_color);
     // shift_x = 0;
@@ -910,13 +910,13 @@ void display()
     // letters[66](def_color);
     letters_obj.draw();
 
-    float _co[] = {1, 0, 0};
+   /* float _co[] = {1, 0, 0};
     vertex<float> ve[] = {
 
         vertex<float>(-0.95, 0.95),
         vertex<float>(-0.95, .5),
     };
-    draw(GL_LINE_STRIP, ve, _co, 2);
+    draw(GL_LINE_STRIP, ve, _co, 2);*/
 
     glutSwapBuffers(); //  in Double Buffers => glutSwapBuffers(hDC)
 }
