@@ -1,5 +1,5 @@
 #include<gl/glut.h>
-GLfloat t = 0;
+GLfloat rot_angle = 0;
 int x_rotate = 0;
 int y_rotate = 0;
 int z_rotate = 0;
@@ -15,25 +15,25 @@ void specFunc(int key, int x, int y) {
 	if (key == GLUT_KEY_UP || key == GLUT_KEY_DOWN) {
 		x_rotate = 1;
 		if (key == GLUT_KEY_UP) {
-			t = t + 2;
+			rot_angle = rot_angle + 2;
 		}
 		else {
-			t = t - 2;
+			rot_angle = rot_angle - 2;
 		}
-		if (t > 360) {
-			t = 0;
+		if (rot_angle > 360) {
+			rot_angle = 0;
 		}
 	}
 	else if (key == GLUT_KEY_RIGHT || key == GLUT_KEY_LEFT) {
 		y_rotate = 1;
 		if (key == GLUT_KEY_RIGHT) {
-			t = t + 2;
+			rot_angle = rot_angle + 2;
 		}
 		else {
-			t = t - 2;
+			rot_angle = rot_angle - 2;
 		}
-		if (t > 360) {
-			t = 0;
+		if (rot_angle > 360) {
+			rot_angle = 0;
 		}
 
 	}
@@ -48,32 +48,58 @@ void Face(GLenum type, GLfloat v0[], GLfloat v1[], GLfloat v2[], GLfloat v3[]) {
 	glVertex3fv(v3);
 	glEnd();
 }
-void Cube() {
-	GLfloat v[12][3] = {
+void Cube(bool isSmall) {
+	GLfloat v[12][3];
+	if (isSmall == true) {
+		GLfloat v[12][3] = {
+		{-0.925, 0.85, 0.3},
+		{-0.925, 0.5, 0.3},
+		{-0.775, 0.5, 0.3},
+		{-0.775, 0.85, 0.3},
 
-		{-1, 1, 0.3},
-		{-1, 0.5, 0.3},
-		{-0.7, 0.5, 0.3},
-		{-0.7, 1, 0.3},
+		{-0.925, 0.85, -0.3},
+		{-0.925, 0.5, -0.3},
+		{-0.775, 0.5, -0.3},
+		{-0.775, 0.85, -0.3},
+		};
+		glColor3f(0, 0, 0);
+		Face(GL_LINE_LOOP, v[0], v[1], v[2], v[3]);
+		//glColor3f(0, 0, 1);
+		Face(GL_LINE_LOOP, v[4], v[5], v[6], v[7]);
+		//glColor3f(0, 1, 0);
+		Face(GL_LINE_LOOP, v[4], v[5], v[1], v[0]);
+		//glColor3f(0, 1, 1);
+		Face(GL_LINE_LOOP, v[4], v[0], v[3], v[7]);
+		//glColor3f(1, 0, 0);
+		Face(GL_LINE_LOOP, v[3], v[2], v[6], v[7]);
+		//glColor3f(1, 0, 1);
+		Face(GL_LINE_LOOP, v[1], v[5], v[6], v[2]);
+	}
+	else {
+		GLfloat v[12][3] = {
+			{-1, 1, 0.3},
+			{-1, 0.5, 0.3},
+			{-0.7, 0.5, 0.3},
+			{-0.7, 1, 0.3},
 
-		{-1, 1, -0.3},
-		{-1, 0.5, -0.3},
-		{-0.7, 0.5, -0.3},
-		{-0.7, 1, -0.3},
-
-	};
-	glColor3f(0, 0, 0);
-	Face(GL_LINE_LOOP, v[0], v[1], v[2], v[3]);
-	//glColor3f(0, 0, 1);
-	Face(GL_LINE_LOOP, v[4], v[5], v[6], v[7]);
-	//glColor3f(0, 1, 0);
-	Face(GL_LINE_LOOP, v[4], v[5], v[1], v[0]);
-	//glColor3f(0, 1, 1);
-	Face(GL_LINE_LOOP, v[4], v[0], v[3], v[7]);
-	//glColor3f(1, 0, 0);
-	Face(GL_LINE_LOOP, v[3], v[2], v[6], v[7]);
-	//glColor3f(1, 0, 1);
-	Face(GL_LINE_LOOP, v[1], v[5], v[6], v[2]);
+			{-1, 1, -0.3},
+			{-1, 0.5, -0.3},
+			{-0.7, 0.5, -0.3},
+			{-0.7, 1, -0.3},
+		};
+		glColor3f(0, 0, 0);
+		Face(GL_LINE_LOOP, v[0], v[1], v[2], v[3]);
+		//glColor3f(0, 0, 1);
+		Face(GL_LINE_LOOP, v[4], v[5], v[6], v[7]);
+		//glColor3f(0, 1, 0);
+		Face(GL_LINE_LOOP, v[4], v[5], v[1], v[0]);
+		//glColor3f(0, 1, 1);
+		Face(GL_LINE_LOOP, v[4], v[0], v[3], v[7]);
+		//glColor3f(1, 0, 0);
+		Face(GL_LINE_LOOP, v[3], v[2], v[6], v[7]);
+		//glColor3f(1, 0, 1);
+		Face(GL_LINE_LOOP, v[1], v[5], v[6], v[2]);
+	}
 }
 void DrawBox(GLfloat _w, GLfloat _h, GLfloat _d, GLfloat x_start = -0.85, GLfloat y_start = 0.75) {
 	glBegin(GL_QUADS);
@@ -252,9 +278,14 @@ void G() {
 	DrawBox(0.0375, 0.2, 0.125, -0.8, 0.5);
 	glPopMatrix();
 }
-void H() {
+void H(bool bool_mid_line) {
 	DrawBox(0.0375, 0.5, 0.125, -0.925, 0.5);
-	DrawBox(0.0375, 0.5, 0.125, -0.8125, 0.5);
+	if (bool_mid_line) {
+		DrawBox(0.0375, 0.5, 0.125, -0.8125, 0.5);
+	}
+	else {
+		DrawBox(0.0375, 0.25, 0.125, -0.8125, 0.5);
+	}
 
 	glPushMatrix();				// -
 	glTranslatef(-0.925, 0.75, 0);
@@ -280,14 +311,15 @@ void I() {
 	DrawBox(0.3, 0.04, 0.125, -1, 0.5);
 
 }
-void J() {
+void J(bool bool_mid_line) {
 	// J = ( C + Scaling +Rotation 90 ) + Vertical line  +  horizontal line 
-	glPushMatrix();		//	 -
-	glTranslatef(-0.82, 0.86, 0);
-	glRotatef(180, 0, 0, 1);
-	DrawBox(0.1, 0.0285, 0.125, 0, 0);
-	glPopMatrix();
-
+	if (bool_mid_line) {
+		glPushMatrix();		//	 -
+		glTranslatef(-0.82, 0.86, 0);
+		glRotatef(180, 0, 0, 1);
+		DrawBox(0.1, 0.0285, 0.125, 0, 0);
+		glPopMatrix();
+	}
 	// | 
 	DrawBox(0.0125, 0.2, 0.125, -0.83, 0.65);
 
@@ -348,16 +380,16 @@ void W() {
 	// W = (V + Scaling + Translation ) + (V + Scaling + Translation )
 
 	glPushMatrix();			// Left V
-	glTranslatef(-1, 0.75, 0);
+	glTranslatef(-0.98, 0.75, 0);
 	glScaled(0.5, 1, 1);
-	glTranslatef(1, -0.75, 0);
+	glTranslatef(0.98, -0.75, 0);
 	V();
 	glPopMatrix();
 
 	glPushMatrix();			// Right V
-	glTranslatef(-0.7, 0.75, 0);
+	glTranslatef(-0.72, 0.75, 0);
 	glScaled(0.5, 1, 1);
-	glTranslatef(0.7, -0.75, 0);
+	glTranslatef(0.72, -0.75, 0);
 	V();
 	glPopMatrix();
 
@@ -510,27 +542,408 @@ void Y() {
 
 	DrawBox(0.019, 0.28, 0.125, -0.86, 0.5);
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Small Letters
+
+void a() {
+	// a = (C (inner) + scaled)+ (C (outer) + scaled + Rotation 180 )
+	glPushMatrix();				// C (outer) + scaled + Rotation 180
+	glTranslatef(-0.83, 0.5, 0);
+	glScalef(0.5, 0.5, 1);
+	glTranslatef(0.83, -0.5, 0);
+
+	glTranslatef(-0.85, 0.75, 0);
+	glRotatef(180, 0, 0, 1);
+	glTranslatef(0.85, -0.75, 0);
+	C();
+	glPopMatrix();
+
+	glPushMatrix();				// (C (inner) + scaled)
+	glTranslatef(-0.87, 0.5, 0);
+	glScalef(0.5, 0.25, 1);
+	glTranslatef(0.87, -0.5, 0);
+	C();
+	glPopMatrix();
+}
+void b() {
+	// b = ( P + (Rotation  + 180 Z axies)+ (Rotation  + 180 Y axies) )
+
+	glPushMatrix();		// scale
+	glTranslatef(-0.85, 0.67, 0);
+	glScalef(0.5, 0.6, 1);
+	glTranslatef(0.85, -0.67, 0);
+
+	glTranslatef(-0.85, 0.7, 0);		//rotate z 180
+	glRotatef(180, 0, 0, 1);
+	glTranslatef(0.85, -0.7, 0);
+
+	glTranslatef(-0.85, 0.5, 0);		//rotate y 180
+	glRotatef(180, 0, 1, 0);
+	glTranslatef(0.85, -0.5, 0);
+	P();
+	glPopMatrix();
+}
+void c() {
+	// c = ( C + Scaled )
+
+	glPushMatrix();		// scale
+	glTranslatef(-0.85, 0.5, 0);
+	glScalef(0.5, 0.5, 1);
+	glTranslatef(0.85, -0.5, 0);
+
+	C();
+	glPopMatrix();
+
+}
+void d() {
+	// d = (b + Rotation + 180 y axies)
+	glPushMatrix();
+	glTranslatef(-0.85, 0.67, 0);		//rotate y 180
+	glRotatef(180, 0, 1, 0);
+	glTranslatef(0.85, -0.67, 0);
+	b();
+	glPopMatrix();
+}
+void e() {
+	// e = ( C + scaled) + (C +scaled + rotation))
+	glPushMatrix();
+	glTranslatef(-0.85, 0.5, 0);
+	glScalef(0.5, 0.5, 1);
+	glTranslatef(0.85, -0.5, 0);
+	C();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.83, 0.67, 0);
+	glScalef(0.4, 0.25, 1);
+	glTranslatef(0.83, -0.67, 0);
+
+	glTranslatef(-0.85, 0.75, 0);		//rotate z 180
+	glRotatef(180, 0, 0, 1);
+	glTranslatef(0.85, -0.75, 0);
+	C();
+	glPopMatrix();
+}
+void f() {
+	// f = (J+rotation 180 z axies )  + bott vertical line 
+
+	glPushMatrix();
+	glTranslatef(-0.85, 0.71, 0);
+	glScalef(0.5, 0.7, 1);
+	glTranslatef(0.85, -0.71, 0);
+
+	glTranslatef(-0.85, 0.71, 0);
+	glRotatef(180, 0, 0, 1);
+	glTranslatef(0.85, -0.71, 0);
+	J(true);
+	DrawBox(0.015, 0.39, 0.125, -0.832, 0.62);
+	glPopMatrix();
+
+}
+
+void g() {
+	// g = ( e + rotation y axies 180 )
+
+	glPushMatrix();		// T
+	glTranslatef(-0.85, 0.75, 0);		//rotate y 180
+	glRotatef(180, 0, 1, 0);
+	glTranslatef(0.85, -0.75, 0);
+	e();
+	glPopMatrix();
+}
+
+void h() {
+	// h = (H + scaling ) - top line
+
+	glPushMatrix();		// scale H - Topline
+	glTranslatef(-0.85, 0.5, 0);
+	glScalef(0.7, 0.6, 1);
+	glTranslatef(0.85, -0.5, 0);
+	H(false);
+	glPopMatrix();
+}
+void l() {
+	// l = mid line 
+	glPushMatrix();		// scale mid line
+	glTranslatef(-0.85, 0.5, 0);
+	glScalef(0.4, 0.45, 1);
+	glTranslatef(0.85, -0.5, 0);
+	DrawBox(0.0375, 0.49, 0.125, -0.86875, 0.5);
+	glPopMatrix();
+
+}
+void i() {
+	// i = ( l )  + (o on top + scaled) 
+
+	glPushMatrix();		// l
+	l();
+	glPopMatrix();
+
+	glPushMatrix();		// scale O
+	glTranslatef(-0.85, 0.80, 0);
+	glScalef(0.2, 0.15, 1);
+	glTranslatef(0.85, -0.8, 0);
+	O();
+	glPopMatrix();
+}
+void j() {
+	// j = (J +scaling )+ ( O on Top + scaling )
+	glPushMatrix();		// scale mid line
+	glTranslatef(-0.81, 0.2, 0);
+	glScalef(0.7, 0.8, 1);
+	glTranslatef(0.81, -0.2, 0);
+	J(true);
+	glPopMatrix();
+
+	glPushMatrix();		// scale O
+	glTranslatef(-0.83, 0.8, 0);
+	glScalef(0.2, 0.15, 1);
+	glTranslatef(0.83, -0.8, 0);
+	O();
+	glPopMatrix();
+}
+
+void k() {
+	// k = ( K + scaling )
+
+	glPushMatrix();		// scale K
+	glTranslatef(-0.85, 0.5, 0);
+	glScalef(0.5, 0.6, 1);
+	glTranslatef(0.85, -0.5, 0);
+	K();
+	glPopMatrix();
+}
+
+
+void n() {
+	glPushMatrix();		//  c + scaled+ rotation -90 z axeis
+	glTranslatef(-0.85, 0.5, 0);
+	glScalef(0.38, 1.5, 1);
+	glTranslatef(0.85, -0.52, 0);
+
+	glTranslatef(-0.878, 0.59, 0);
+	glRotatef(-90, 0, 0, 1);
+	glTranslatef(0.878, -0.59, 0);
+	c();
+	glPopMatrix();
+
+	glPushMatrix();		// scale mid line
+	glTranslatef(-0.87, 0.5, 0);
+	glScalef(0.3, 0.6, 1);
+	glTranslatef(0.87, -0.5, 0);
+	DrawBox(0.0375, 0.29, 0.125, -0.95, 0.5);
+	glPopMatrix();
+}
+void u() {
+	// u = n rotation + 180 z axies
+	glPushMatrix();		///rotate y 180
+	glTranslatef(-0.85, 0.59, 0);
+	glRotatef(180, 0, 0, 1);
+	glTranslatef(0.85, -0.59, 0);
+	n();
+	glPopMatrix();
+
+}
+
+void m() {
+	// m = ( c + scaled+ rotation -90 z axeis + (c + scaled+ rotation -90 z axeis) + mid line
+
+	glPushMatrix();	//  c + scaled+ rotation -90 z axeis
+
+	glTranslatef(-0.87, 0.59, 0);
+	glScalef(0.6, 1, 1);
+	glTranslatef(0.87, -0.59, 0);
+
+	glTranslatef(-0.87, 0.59, 0);
+	glRotatef(180, 0, 0, 1);
+	glTranslatef(0.87, -0.59, 0);
+	u();
+	glPopMatrix();
+
+	glPushMatrix();	//  c + scaled+ rotation -90 z axeis
+
+	glTranslatef(-0.825, 0.6, 0);
+	glScalef(0.22, 1.62, 1);
+	glTranslatef(0.825, -0.6, 0);
+
+	glTranslatef(-0.878, 0.6, 0);
+	glRotatef(-90, 0, 0, 1);
+	glTranslatef(0.878, -0.6, 0);
+	c();
+	glPopMatrix();
+}
+void o() {
+	// o = O scaled 
+
+	glPushMatrix();
+	glTranslatef(-0.85, 0.5, 0);
+	glScalef(0.6, 0.5, 1);
+	glTranslatef(0.85, -0.5, 0);
+	O();
+	glPopMatrix();
+}
+void p() {
+	// p = d + rotation 180 z axies
+	glPushMatrix();
+	glTranslatef(-0.85, 0.65, 0);
+	glRotatef(180, 0, 0, 1);		//rotate z 180
+	glTranslatef(0.85, -0.65, 0);
+	d();
+	glPopMatrix();
+}
+void q() {
+	// q = p rotation 180 y axies
+
+	glPushMatrix();
+	glTranslatef(-0.85, 0.68, 0);
+	glRotatef(180, 0, 1, 0);		//rotate y 180
+	glTranslatef(0.85, -0.68, 0);
+	p();
+	glPopMatrix();
+}
+void r() {
+	// r = l + ( c rotation + scaled )
+	glPushMatrix();		// scale mid line
+	glTranslatef(-0.925, 0.5, 0);
+	glScalef(0.4, 0.45, 1);
+	glTranslatef(0.925, -0.5, 0);
+	DrawBox(0.0375, 0.49, 0.125, -0.86875, 0.5);
+	glPopMatrix();
+
+	glPushMatrix();		// scale
+
+	glTranslatef(-0.865, 0.5, 0);
+	glScalef(0.2, 0.7, 1);
+	glTranslatef(0.865, -0.5, 0);
+
+	glTranslatef(-0.85, 0.68, 0);
+	glRotatef(-90, 0, 0, 1);		//rotate z -90
+	glTranslatef(0.85, -0.68, 0);
+	C();
+	glPopMatrix();
+}
+void s() {
+	// s = S scaled 
+	glPushMatrix();		// scale 
+	glTranslatef(-0.85, 0.5, 0);
+	glScalef(0.5, 0.6, 1);
+	glTranslatef(0.85, -0.5, 0);
+	S();
+	glPopMatrix();
+}
+void t() {
+	// t = ( J rotate y 180 + scaling ) + vertical line 
+	glPushMatrix();
+	glTranslatef(-0.85, 0.35, 0);
+	glScalef(0.5, 0.7, 1);
+	glTranslatef(0.85, -0.35, 0);
+
+	glTranslatef(-0.85, 0.55, 0);
+	glRotatef(-180, 0, 1, 0);		//rotate y -180
+	glTranslatef(0.85, -0.55, 0);
+	J(true);
+	// | 
+	DrawBox(0.0125, 0.3, 0.125, -0.83, 0.65);
+	glPopMatrix();
+}
+void v() {
+	// v = ( V + scaled )
+
+	glPushMatrix();
+	glTranslatef(-0.85, 0.5, 0);
+	glScalef(0.5, 0.5, 1);
+	glTranslatef(0.85, -0.5, 0);
+	V();
+	glPopMatrix();
+}
+void w() {
+	// w = W + Scaled 
+	glPushMatrix();
+	glTranslatef(-0.85, 0.5, 0);
+	glScalef(0.5, 0.6, 1);
+	glTranslatef(0.85, -0.5, 0);
+	W();
+	glPopMatrix();
+}
+void x() {
+	// x = X + scaled 
+	glPushMatrix();
+	glTranslatef(-0.85, 0.5, 0);
+	glScalef(0.5, 0.6, 1);
+	glTranslatef(0.85, -0.5, 0);
+	X();
+	glPopMatrix();
+}
+void y() {
+	// y =  (v+scaled)	+ J
+
+	// J
+	glPushMatrix();
+	glTranslatef(-0.85, 0.35, 0);
+	glScalef(0.5, 0.8, 1);
+	glTranslatef(0.85, -0.35, 0);
+	J(false);
+	glPopMatrix();
+
+	// v
+	glPushMatrix();
+	glTranslatef(-0.845, 0.89, 0);
+	glScalef(0.4, 0.5, 1);
+	glTranslatef(0.845, -0.89, 0);
+
+	glTranslatef(-0.84, 0.61, 0);
+	glRotatef(12, 0, 0, 1);
+	glTranslatef(0.84, -0.61, 0);
+	v();
+	glPopMatrix();
+}
+
+void z() {
+	// z = Z + Scaled 
+	glPushMatrix();
+	glTranslatef(-0.85, 0.5, 0);
+	glScalef(0.5, 0.6, 1);
+	glTranslatef(0.85, -0.5, 0);
+	Z();
+	glPopMatrix();
+}
 void Draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPointSize(6.0);
 	glLineWidth(5);
 	/*
-		(-1, 1.0)-----------(-.85, 1.0)-------------(-.7, 1.0)
+	* Capital letters
+		(-1, 1.0)-----------(-0.85, 1.0)-------------(-0.7, 1.0)
 			|                                           |
 			|                                           |
 			|                                           |
-		(-1, .75)           (-.85, .75)             (-.7, .75)
+		(-1, 0.75)           (-0.85, 0.75)             (-0.7, 0.75)
 			|                                           |
 			|                                           |
 			|                                           |
-		(-1, .50)-----------(-.85, .50)-------------(-.7, .50)
+		(-1, 0.50)-----------(-0.85, 0.50)-------------(-0.7, 0.50)
+	*/
+	/*
+	* Small letters
+		(-0.925, 0.85)-----------(-0.85, 0.85)-------------(-0.7, 0.85)
+			|                                           |
+			|                                           |
+			|                                           |
+		(-0.925, 0.675)           (-0.85, 0.675)             (-0.775, 0.675)
+			|                                           |
+			|                                           |
+			|                                           |
+		(-0.925, 0.50)-----------(-0.85, 0.50)-------------(-0.775, 0.50)
 	*/
 	glColor3f(1, 0, 0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glRotatef(t, x_rotate, y_rotate, z_rotate);
-	C();
-	Cube();
+	glRotatef(rot_angle, x_rotate, y_rotate, z_rotate);
+	i();
+	Cube(false);
 
 	glutSwapBuffers();
 }
