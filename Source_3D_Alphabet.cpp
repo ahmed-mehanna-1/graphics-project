@@ -1,45 +1,29 @@
-#include<gl/glut.h>
-GLfloat rot_angle = 0;
+#include <iostream>
+#include <utility>
+#include <GL/glut.h>
+#include "GL/gl.h"
+#include <math.h>
+#include <map>
+#include <functional>
+using namespace std;
+
+GLfloat rot_angle_x = -12;
+GLfloat rot_angle_y = 12;
 int x_rotate = 0;
 int y_rotate = 0;
 int z_rotate = 0;
+
+float letter_size = 1;
+float shift_x = 0;
+float shift_y = -0.1;
+
+
 void init() {
 	glClearColor(1, 1, 1, 0);
 	glColor3f(1, 0, 0);
 	glEnable(GL_DEPTH_TEST);
 }
-void specFunc(int key, int x, int y) {
-	x_rotate = 0;
-	y_rotate = 0;
-	z_rotate = 0;
-	if (key == GLUT_KEY_UP || key == GLUT_KEY_DOWN) {
-		x_rotate = 1;
-		if (key == GLUT_KEY_UP) {
-			rot_angle = rot_angle + 2;
-		}
-		else {
-			rot_angle = rot_angle - 2;
-		}
-		if (rot_angle > 360) {
-			rot_angle = 0;
-		}
-	}
-	else if (key == GLUT_KEY_RIGHT || key == GLUT_KEY_LEFT) {
-		y_rotate = 1;
-		if (key == GLUT_KEY_RIGHT) {
-			rot_angle = rot_angle + 2;
-		}
-		else {
-			rot_angle = rot_angle - 2;
-		}
-		if (rot_angle > 360) {
-			rot_angle = 0;
-		}
 
-	}
-
-	glutPostRedisplay();
-}
 void Face(GLenum type, GLfloat v0[], GLfloat v1[], GLfloat v2[], GLfloat v3[]) {
 	glBegin(type);
 	glVertex3fv(v0);
@@ -105,6 +89,8 @@ void DrawBox(GLfloat _w, GLfloat _h, GLfloat _d, GLfloat x_start = -0.85, GLfloa
 	glBegin(GL_QUADS);
 	//front
 	glColor3f(1, 0, 0);
+	
+
 
 	glVertex3f(x_start, _h + y_start, _d);
 	glVertex3f(x_start, y_start, _d);
@@ -151,7 +137,7 @@ void DrawBox(GLfloat _w, GLfloat _h, GLfloat _d, GLfloat x_start = -0.85, GLfloa
 	glEnd();
 }
 // DrawBOX(Box_width , Box_height ,Box_depth , starting x point , starting y point)
-void D(bool bool_mid_line) {
+void D_letter(bool bool_mid_line=false) {
 	glPushMatrix();				// - Down
 	glTranslatef(-0.925, 0.539, 0);
 	glRotatef(0, 0, 0, 1);
@@ -186,7 +172,11 @@ void D(bool bool_mid_line) {
 	}
 
 }
-void A(bool bool_mid_line) {
+
+void D(){
+	D_letter(true);
+}
+void A_letter(bool bool_mid_line=true) {
 	if (bool_mid_line) {
 		glPushMatrix();				// -
 		glTranslatef(-0.925, 0.75, 0);
@@ -206,13 +196,17 @@ void A(bool bool_mid_line) {
 	DrawBox(0.5, -0.04, 0.125, 0, 0);
 	glPopMatrix();
 }
+void A(){
+	A_letter(true);
+}
+
 void V() {
 	// V = (A + Rotation 180 ) + no Mid Line
 	glPushMatrix();
 	glTranslatef(-0.85, 0.75, 0);
 	glRotatef(180, 0, 0, 1);
 	glTranslatef(0.85, -0.75, 0);
-	A(false);
+	A_letter(false);
 	glPopMatrix();
 }
 void F() {
@@ -229,7 +223,7 @@ void B() {
 	glScalef(0.7, 0.4, 1);
 	glTranslatef(0.85, -1, 0);
 
-	D(true);
+	D_letter(true);
 	glPopMatrix();
 
 
@@ -237,7 +231,7 @@ void B() {
 	glTranslatef(-0.85, 0.5, 0);
 	glScalef(0.7, 0.6, 1);
 	glTranslatef(0.85, -0.5, 0);
-	D(true);
+	D_letter(true);
 	glPopMatrix();
 }
 void C() {
@@ -248,7 +242,7 @@ void C() {
 	glTranslatef(-0.85, 0.75, 0);
 	glRotatef(180, 0, 0, 1);
 	glTranslatef(0.85, -0.75, 0);
-	D(false);
+	D_letter(false);
 	glPopMatrix();
 
 }
@@ -278,7 +272,7 @@ void G() {
 	DrawBox(0.0375, 0.2, 0.125, -0.8, 0.5);
 	glPopMatrix();
 }
-void H(bool bool_mid_line) {
+void H_letter(bool bool_mid_line=true) {
 	DrawBox(0.0375, 0.5, 0.125, -0.925, 0.5);
 	if (bool_mid_line) {
 		DrawBox(0.0375, 0.5, 0.125, -0.8125, 0.5);
@@ -292,6 +286,9 @@ void H(bool bool_mid_line) {
 	glRotatef(0, 0, 0, 1);
 	DrawBox(0.1125, -0.04, 0.125, 0, 0);
 	glPopMatrix();
+}
+void H(){
+	H_letter(true);
 }
 void T() {
 	glPushMatrix();				// - Top
@@ -311,7 +308,7 @@ void I() {
 	DrawBox(0.3, 0.04, 0.125, -1, 0.5);
 
 }
-void J(bool bool_mid_line) {
+void J_letter(bool bool_mid_line=false) {
 	// J = ( C + Scaling +Rotation 90 ) + Vertical line  +  horizontal line 
 	if (bool_mid_line) {
 		glPushMatrix();		//	 -
@@ -335,6 +332,9 @@ void J(bool bool_mid_line) {
 	C();
 	glPopMatrix();
 
+}
+void J(){
+	J_letter(false);
 }
 void K() {
 	DrawBox(0.0375, 0.5, 0.125, -0.925, 0.5);
@@ -447,7 +447,7 @@ void P() {
 	glScalef(0.7, 0.6, 1);
 	glTranslatef(0.85, -1, 0);
 
-	D(true);
+	D_letter(true);
 	glPopMatrix();
 
 	DrawBox(0.0375, 0.5, 0.125, -0.925, 0.5); // MID line copyed from D Mid line
@@ -638,7 +638,7 @@ void f() {
 	glTranslatef(-0.85, 0.71, 0);
 	glRotatef(180, 0, 0, 1);
 	glTranslatef(0.85, -0.71, 0);
-	J(true);
+	J_letter(true);
 	DrawBox(0.015, 0.39, 0.125, -0.832, 0.62);
 	glPopMatrix();
 
@@ -662,7 +662,7 @@ void h() {
 	glTranslatef(-0.85, 0.5, 0);
 	glScalef(0.7, 0.6, 1);
 	glTranslatef(0.85, -0.5, 0);
-	H(false);
+	H_letter(false);
 	glPopMatrix();
 }
 void l() {
@@ -695,7 +695,7 @@ void j() {
 	glTranslatef(-0.81, 0.2, 0);
 	glScalef(0.7, 0.8, 1);
 	glTranslatef(0.81, -0.2, 0);
-	J(true);
+	J_letter(true);
 	glPopMatrix();
 
 	glPushMatrix();		// scale O
@@ -844,7 +844,7 @@ void t() {
 	glTranslatef(-0.85, 0.55, 0);
 	glRotatef(-180, 0, 1, 0);		//rotate y -180
 	glTranslatef(0.85, -0.55, 0);
-	J(true);
+	J_letter(true);
 	// | 
 	DrawBox(0.0125, 0.3, 0.125, -0.83, 0.65);
 	glPopMatrix();
@@ -885,7 +885,7 @@ void y() {
 	glTranslatef(-0.85, 0.35, 0);
 	glScalef(0.5, 0.8, 1);
 	glTranslatef(0.85, -0.35, 0);
-	J(false);
+	J_letter(false);
 	glPopMatrix();
 
 	// v
@@ -910,6 +910,175 @@ void z() {
 	Z();
 	glPopMatrix();
 }
+
+void space()
+{
+}
+
+map<int, function<void()> >
+    letters = {
+        {65, A},//
+        {66, B},
+        {67, C},
+        {68, D},
+        {69, E},
+        {70, F},//asd
+        {71, G},
+        {72, H},
+        {73, I},
+        {74, J},
+        {75, K},
+        {76, L},
+        {77, M},
+        {78, N},
+        {79, O},
+        {80, P},
+        {81, Q},
+        {82, R},
+        {83, S},
+        {84, T},
+        {85, U},
+        {86, V},
+        {87, W},
+        {88, X},
+        {89, Y},
+        {90, Z},
+        {97, a},
+        {98, b},
+        {99, c},
+        {100, d},
+        {101, e},
+        {102, f},
+        {103, g},
+        {104, h},
+        {105, i},
+        {106, j},
+        {107, k},
+        {108, l},
+        {109, m},
+        {110, n},
+        {111, o},
+        {112, p},
+        {113, q},
+        {114, r},
+        {115, s},
+        {116, t},
+        {117, u},
+        {118, v},
+        {119, w},
+        {120, x},
+        {121, y},
+        {122, z},
+        {32, space},};
+
+int letter = 97;
+
+
+
+class Letters
+{
+public:
+    char array[500];
+    int letter_length = 0;
+
+    void push(char letter)
+    {
+        array[letter_length++] = letter;
+    }
+    void pop()
+    {
+        letter_length = max(letter_length - 1, 0);
+    }
+
+    void draw()
+    {
+        shift_y = -0.1;
+        shift_x = 0;
+        for (int i = 0; i < letter_length; i++)
+        {
+
+            int letter = array[i];
+			
+			glTranslatef(shift_x,shift_y,0);
+			// glTranslatef(-0.925,0.825,0);
+			// glScalef(letter_size,letter_size,1);
+			// glTranslatef(0.925,-0.825,0);
+            letters[letter]();
+			glTranslatef(-shift_x,-shift_y,0);
+			// glTranslatef(-0.925,0.825,0);
+			// glScalef(-letter_size,-letter_size,1);
+			// glTranslatef(0.925,-0.825,0);
+			
+            // cout << shift_x << "  " << shift_y << endl;
+            // if you want it to stop when size is large then add the next commented line
+
+			float capital_letter_padding =  letter >= 65 && letter<=90 ? 0.1 : 0;
+
+            if ((shift_x + 0.3) * letter_size >= 1.8) // && shift_y > (-1.5 / letter_size)
+            {
+                shift_y -= 0.6;
+                shift_x = 0;
+
+            }
+            else if (shift_x < (1.8 / letter_size))
+            {
+                shift_x += 0.3+capital_letter_padding;
+            }
+
+        }
+    }
+};
+
+Letters letters_obj;
+
+void specFunc(int key, int x, int y) {
+	// x_rotate = 0;
+	// y_rotate = 0;
+	// z_rotate = 0;
+	if (key == GLUT_KEY_UP || key == GLUT_KEY_DOWN) {
+		// x_rotate = 1;
+		if (key == GLUT_KEY_UP) {
+			rot_angle_x = rot_angle_x + 2;
+		}
+		else {
+			rot_angle_x = rot_angle_x - 2;
+		}
+		if (rot_angle_x > 360) {
+			rot_angle_x = 0;
+		}
+	}
+	else if (key == GLUT_KEY_RIGHT || key == GLUT_KEY_LEFT) {
+		// y_rotate = 1;
+		if (key == GLUT_KEY_RIGHT) {
+			rot_angle_y = rot_angle_y + 2;
+		}
+		else {
+			rot_angle_y = rot_angle_y - 2;
+		}
+		if (rot_angle_y > 360) {
+			rot_angle_y = 0;
+		}
+
+	}
+
+	glutPostRedisplay();
+}
+
+void keyboardHandler(unsigned char key, int x, int y)
+{
+    if (int(key) == 8)
+    {
+        letters_obj.pop();
+    }
+    else if (((int(key) >= 65 && int(key) <= 90) || (int(key) >= 97 && int(key) <= 122)) || key == 32)
+    {
+        letters_obj.push(key);
+    }
+
+    glutPostRedisplay();
+}
+
+
 void Draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPointSize(6.0);
@@ -941,9 +1110,11 @@ void Draw() {
 	glColor3f(1, 0, 0);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glRotatef(rot_angle, x_rotate, y_rotate, z_rotate);
-	i();
-	Cube(false);
+	glRotatef(rot_angle_x, 1, 0, 0);
+	glRotatef(rot_angle_y, 0, 1, 0);
+	// A();
+	letters_obj.draw();
+	// Cube(false);
 
 	glutSwapBuffers();
 }
@@ -959,6 +1130,7 @@ int main(int x, char* v[]) {
 	init();
 	glutDisplayFunc(Draw);
 	glutSpecialFunc(specFunc);
+	glutKeyboardFunc(keyboardHandler);
 	glutMainLoop();
 	return 5;
 }
