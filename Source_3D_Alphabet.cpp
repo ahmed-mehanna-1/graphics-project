@@ -1022,7 +1022,7 @@ public:
             }
             else if (shift_x < (1.8 / letter_size))
             {
-                shift_x += 0.3+capital_letter_padding;
+                shift_x += 0.3;
             }
 
         }
@@ -1074,6 +1074,14 @@ void keyboardHandler(unsigned char key, int x, int y)
     {
         letters_obj.push(key);
     }
+	else if ( int(key) == 49 )
+    {
+        letter_size+=0.1;
+    }
+	else if ( int(key) == 50 )
+    {
+        letter_size-=0.1;
+    }
 
     glutPostRedisplay();
 }
@@ -1113,6 +1121,10 @@ void Draw() {
 	glRotatef(rot_angle_x, 1, 0, 0);
 	glRotatef(rot_angle_y, 0, 1, 0);
 	// A();
+
+	glTranslatef(-0.925,0.85,0);
+	glScalef(letter_size,letter_size,1);
+	glTranslatef(0.925,-0.85,0);
 	letters_obj.draw();
 	// Cube(false);
 
