@@ -45,27 +45,7 @@ GLubyte CapitalLetters[][13] = {
 
 GLuint fontOffset;
 
-// GLubyte *convert(int index){
-   
-//    GLubyte b[13] = {};
-//    for(int i=0;i<13;i++){
-      
-//       b[i] = int(CapitalLetters[index][i]);
-//       // cout << int(b[i]) << "   " << int(CapitalLetters[index][i])<<endl;
-//       // b[i*4+0] = int(CapitalLetters[index][i]);
-//       // b[i*4+1] = int(CapitalLetters[index][i]);
-//       // b[i*4+2] = int(CapitalLetters[index][i]);
-//       // b[i*4+3] = int(CapitalLetters[index][i]);
-//    }
-//    GLubyte *c = CapitalLetters[index];
-//    return c;
-   
-// }
-
-
-
-void makeRasterFont(void)
-{
+void makeRasterFont(void){
    GLuint i, j;
    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
@@ -89,19 +69,46 @@ void makeRasterFont(void)
    glEndList();
 }
 
-void init(void)
-{
+void init(void){
    glShadeModel (GL_FLAT);
    makeRasterFont();
 }
 
-void printString(char *s,int start,int end)
-{
+void printString(char *s,int start,int end){
    glPushAttrib (GL_LIST_BIT);
    glListBase(fontOffset);
    glCallLists(end-start, GL_UNSIGNED_BYTE, (GLubyte *) s+start);
    glPopAttrib ();
 }
+
+
+class Cursor{
+   
+   public:
+      int line_width=0;
+      int n_lines=0;
+
+      void add_line(){
+         this->n_lines++;
+      }
+
+      void set_line_width(int line_width){
+         this->line_width = line_width;
+      }
+      void set_n_lines(int n_lines){
+         this->n_lines = n_lines;
+      }
+
+      void display(){
+         glLineWidth(3);
+         glBegin(GL_LINE_STRIP);
+            glColor3f(1, 0, 0);
+            glVertex2f(25+line_width*letter_width, HEIGHT-5-(20*(n_lines-1)));
+            glVertex2f(25+line_width*letter_width, HEIGHT-5-(20*(n_lines-0)));
+         glEnd();
+      }
+
+};
 
 
 class LettersArray
@@ -119,47 +126,63 @@ public:
 };
 
 LettersArray lettersArray;
+Cursor cursor;
 
 class LettersPointer {
    public:
       int current_index=0;
       int line_size=0;
-      
+
+      int current_line_num   = 0;
+      int current_line_width = 0;
+
+      bool finished = false;
+
 
       LettersPointer(int line_size){
          this->line_size = line_size;
          
       }
+
+
+      bool is_open(){
+         return !this->finished;
+      }
       
 
 
       // return start,end  if both are 0 then there is no new line
-      pair<int,int> get_next_point(){
-         
+      pair<int,int> get_next_line(){
+         this->current_line_num++;
+         cursor.set_n_lines(current_line_num);
          int index = this->current_index;
-         pair<int,int> out;
+         while(index < lettersArray.letter_length){
+            
 
-         // cout <<" outside "<< ((index-current_index) < this->line_size) << " " << (lettersArray.array[index] != '\n') << " " << (index < lettersArray.letter_length) << " " << index <<" " <<(lettersArray.letter_length)<<" "  <<endl;
-         while((index-current_index) < this->line_size && lettersArray.array[index] != '\n' && index < lettersArray.letter_length){
+            if( lettersArray.array[index] == '\n' ){
+               int start = this->current_index;
+               this->current_index = index+1;
+               this->current_line_width = index-start;
+               cursor.add_line();
+               cursor.set_line_width(0);
+               return {start,index}; // not including the new lien
+
+            }
+            else if((index-current_index)+1 == this->line_size){
+               int start = this->current_index;
+               this->current_index = index;
+               cursor.set_line_width(50);
+               return {start,index+1};
+            } 
+            
+            
             index++;
             
          }
 
-         if(lettersArray.array[index] == '\n'){
-            index++;
-         }
-
-            
-         out = {this->current_index,index};
-
-         
-         this->current_index=index;
-
-         
-         
-         
-         return out;
-
+         finished = true;
+         cursor.set_line_width(index-this->current_index);
+         return {this->current_index,index};
 
          
       }
@@ -167,80 +190,29 @@ class LettersPointer {
 
 
 
-
-/* Everything above this line could be in a library 
- * that defines a font.  To make it work, you've got 
- * to call makeRasterFont() before you start making 
- * calls to printString().
- */
-
-void motion(int x, int y)
-{
-   cout<<x<<" "<<y<<endl;
-    static GLint screeny;
-    screeny = HEIGHT - (GLint) y;
-    glRasterPos2i(x, screeny);
-    glPixelZoom(5, 2);
-    glFlush();
-}
-
-void display(void)
-{
+void display(void){
  
    GLfloat white[3] = { 1.0, 1.0, 1.0 };
-    int n_lines=1;
    int line_size = (WIDTH/letter_width)-4;
    LettersPointer pointer(line_size);
-   int current_line_size = 0;
-
-
-
-    
-
 
    glClear(GL_COLOR_BUFFER_BIT);
    glColor3fv(white);
 
   
-   while(true){
-      pair<int,int> p = pointer.get_next_point();
-      if(p.first == p.second ){break;}
+   while(pointer.is_open()){
+      pair<int,int> p = pointer.get_next_line();
+      if(p.first >= p.second ){
+         continue;
+      }
+      
 
-      glRasterPos2i(20, HEIGHT-(20*n_lines));
+      glRasterPos2i(20, HEIGHT-(20*pointer.current_line_num));
       printString(lettersArray.array,p.first,p.second);
-      current_line_size = (p.second - p.first )* letter_width;
-
-
-
-      n_lines++;
-
 
    }
    
-   
-   // glLineWidth(3);
-   //  glBegin(GL_LINE_STRIP);
-   //    glColor3f(1, 0, 0);
-   //    glVertex2f(25+current_line_size, HEIGHT-5-(20*(n_lines-2)));
-   //    glVertex2f(25+current_line_size, HEIGHT-5-(20*(n_lines-1)));
-   //  glEnd();
-   
-   
-
-
-
-
-
-   
-
-   // glRasterPos2i(20, HEIGHT-20);
-   // printString(lettersArray.array,0,min(line_size,lettersArray.letter_length));
-   // if(lettersArray.letter_length > line_size){
-   //    glRasterPos2i(20, HEIGHT-40);
-   //    printString(lettersArray.array,line_size,min(line_size*2,lettersArray.letter_length));
-   // }
-   // glRasterPos2i(20, HEIGHT-40);
-   // printString(var,21,37);
+   cursor.display();
    glFlush ();
 }
 
@@ -254,8 +226,6 @@ void reshape(int w, int h)
    glOrtho (0.0, w, 0.0, h, -1.0, 1.0);
    glMatrixMode(GL_MODELVIEW);
 }
-
-
 
 
 
@@ -275,16 +245,18 @@ void keyboard(unsigned char key, int x, int y)
       lettersArray.push('\n');
     }
 
-   //  }else if(int(key)==Enter){
-   //     lettersArray.push(key);
-
     glutPostRedisplay();
 
 }
 
-
-
-
+// void motion(int x, int y)
+// {
+//     static GLint screeny;
+//     screeny = HEIGHT - (GLint) y;
+//     glRasterPos2i(x, screeny);
+//     glPixelZoom(5, 2);
+//     glFlush();
+// }
 
 
 int main(int argc, char** argv)
@@ -298,7 +270,7 @@ int main(int argc, char** argv)
    glutReshapeFunc(reshape);
    glutKeyboardFunc(keyboard);
    glutDisplayFunc(display);
-   glutMotionFunc(motion);
+   // glutMotionFunc(motion);
    glutMainLoop();
    return 0;
 }
