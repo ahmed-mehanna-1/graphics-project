@@ -20,3 +20,4 @@ g++ Source.cpp -lglut -lGLU -lGL;./a.out
 - [X] add cursor line
 - [ ] Bitmap of all small Letters
 - [ ] allow scroll
+
