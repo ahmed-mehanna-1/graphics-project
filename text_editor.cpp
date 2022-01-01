@@ -137,17 +137,27 @@ class LettersPointer {
       pair<int,int> get_next_point(){
          
          int index = this->current_index;
+         pair<int,int> out;
+
          // cout <<" outside "<< ((index-current_index) < this->line_size) << " " << (lettersArray.array[index] != '\n') << " " << (index < lettersArray.letter_length) << " " << index <<" " <<(lettersArray.letter_length)<<" "  <<endl;
          while((index-current_index) < this->line_size && lettersArray.array[index] != '\n' && index < lettersArray.letter_length){
             index++;
             
          }
 
-         pair<int,int> out = {this->current_index,index};
-         this->current_index=index;
          if(lettersArray.array[index] == '\n'){
-            this->current_index++;
+            index++;
          }
+
+            
+         out = {this->current_index,index};
+
+         
+         this->current_index=index;
+
+         
+         
+         
          return out;
 
 
@@ -178,23 +188,27 @@ void display(void)
 {
  
    GLfloat white[3] = { 1.0, 1.0, 1.0 };
-
-
+    int n_lines=1;
    int line_size = (WIDTH/letter_width)-4;
-
-
    LettersPointer pointer(line_size);
+   int current_line_size = 0;
+
+
+
+    
+
 
    glClear(GL_COLOR_BUFFER_BIT);
    glColor3fv(white);
 
-   int n_lines=1;
+  
    while(true){
       pair<int,int> p = pointer.get_next_point();
       if(p.first == p.second ){break;}
 
       glRasterPos2i(20, HEIGHT-(20*n_lines));
       printString(lettersArray.array,p.first,p.second);
+      current_line_size = (p.second - p.first )* letter_width;
 
 
 
@@ -204,7 +218,16 @@ void display(void)
    }
    
    
+   // glLineWidth(3);
+   //  glBegin(GL_LINE_STRIP);
+   //    glColor3f(1, 0, 0);
+   //    glVertex2f(25+current_line_size, HEIGHT-5-(20*(n_lines-2)));
+   //    glVertex2f(25+current_line_size, HEIGHT-5-(20*(n_lines-1)));
+   //  glEnd();
    
+   
+
+
 
 
 
