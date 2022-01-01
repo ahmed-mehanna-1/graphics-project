@@ -17,9 +17,6 @@ g++ Source.cpp -lglut -lGLU -lGL;./a.out
 - [ ] Bitmap of all small Letters
 - [X] add and remove letters and display them
 - [X] resizable window (then width change number of words per line changes)
-- [ ] add New line when Enter is pressed
+- [X] add New line when Enter is pressed
 - [ ] add cursor line
 - [ ] allow scroll
-- [ ] allow the cursor to move freely (Optional)
-- [ ] add sympols like " ' , % ^ and so on (Optional)
-- [ ] resize the text (Optional)
