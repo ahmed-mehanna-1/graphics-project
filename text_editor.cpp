@@ -560,17 +560,17 @@ void reshape(int w, int h)
 
 
 void save_file(){
-   if(file_name=="null"){
-      file_name="temp.txt";
+   if (file_name == "null") {
+      file_name = "temp.txt";
    }
 
-   freopen(file_name, "w", stdout);
-
-   for(int i=0;i<lettersArray.letter_length;i++){
-      cout<<lettersArray.array[i];
+   ofstream myfile;
+   myfile.open(file_name);
+   for (int i = 0; i < lettersArray.letter_length; i++) {
+      myfile << lettersArray.array[i];
    }
-   fclose(stdout);
-      
+   myfile.close();
+   
       
       
 }
@@ -624,9 +624,9 @@ void specialKeys(int key, int x, int y)
     }else if(key == GLUT_KEY_RIGHT){
        lettersArray.right();
     }else if(key == GLUT_KEY_UP){
-       //lettersArray.up();
+       lettersArray.up();
     }else if(key == GLUT_KEY_DOWN){
-       //lettersArray.down();
+       lettersArray.down();
     }else if(key == GLUT_KEY_HOME){
        lettersArray.letter_index=0;
     }else if(key == GLUT_KEY_END){
