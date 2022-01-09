@@ -497,11 +497,25 @@ class LettersPointer {
 void display(void){
  
    GLfloat white[3] = { 1.0, 1.0, 1.0 };
+
+   GLfloat Colors[][3] = {
+      { 1.0, 1.0, 1.0 },
+      { 1.0, 0.0, 0.0 },
+      { 0.0, 1.0, 0.0 },
+      { 0.0, 0.0, 1.0 },
+      { 1.0, 1.0, 0.0 },
+      { 0.0, 1.0, 1.0 },
+      { 1.0, 0.0, 1.0 },
+      
+   };
+
    int line_size = (WIDTH/letter_width)-(font==8 ? 4 : 2);
    LettersPointer pointer(line_size);
 
    glClear(GL_COLOR_BUFFER_BIT);
    glColor3fv(white);
+
+   int counter=0;
 
   
    while(pointer.is_open()){
@@ -509,10 +523,23 @@ void display(void){
       if(p.first >= p.second ){
          continue;
       }
+      for(int i=p.first;i<p.second;i++){
+         if((lettersArray.array[i]=='/' && lettersArray.array[i+1]=='/') || lettersArray.array[i]=='#'){
+            glColor3fv(Colors[1]);   
+            break;
+         }else if(lettersArray.array[i]!=' '){
+            glColor3fv(white);
+            break;
+            
+         }
+      }
       
+      // glColor3fv(Colors[counter%7]);
+      // counter++;
 
       glRasterPos2i(20, HEIGHT-(letter_height*pointer.current_line_num));
       printString(lettersArray.array,p.first,p.second);
+      
 
    }
    
