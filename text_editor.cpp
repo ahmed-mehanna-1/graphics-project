@@ -9,18 +9,17 @@
 
 using namespace std;
 
-int WIDTH = 500, HEIGHT= 500;
-int font=8; // options are 8,16
+int WIDTH = 1000, HEIGHT= 600;
+int font=16; // options are 8,16
 
-int letter_width=10; // with shift
-int letter_height=20; // with shift
+int letter_width=18; // with shift
+int letter_height=35; // with shift
 
 const char *file_name = "null";
 
 
 void set_font(int new_font){
    font = new_font;
-   letter_width=new_font;
    if(new_font==16){
       letter_width=18;
       letter_height=35;
@@ -283,7 +282,7 @@ class Cursor{
    
    public:
       int line_width=0;
-      int n_lines=0;
+      int n_lines=1;
 
       void add_line(){
          this->n_lines++;
@@ -295,31 +294,134 @@ class Cursor{
       void set_n_lines(int n_lines){
          this->n_lines = n_lines;
       }
+      void set_position(int lines[],int end_line[],int position){
+         
+         int index=0;
+         int line=1;
+         
+
+         
+         while(index<=position){
+            if(index+lines[line] >= position){
+               line_width = position - index;
+               n_lines = line;
+               if(line_width==lines[line] && end_line[line]){
+                  n_lines++;
+                  line_width=0;
+               }
+               break;
+            }else{
+               index+=lines[line];
+               line++;
+            }
+            
+            
+         }
+
+      }
 
       void display(){
          glLineWidth(3);
          glBegin(GL_LINE_STRIP);
             glColor3f(0, 1, 0);
-            glVertex2f(25+line_width*letter_width, HEIGHT-6-(letter_height*(n_lines-1)));
-            glVertex2f(25+line_width*letter_width, HEIGHT-4-(letter_height*(n_lines-0)));
+            glVertex2f(21+line_width*letter_width, HEIGHT-6-(letter_height*(n_lines-1)));
+            glVertex2f(21+line_width*letter_width, HEIGHT-4-(letter_height*(n_lines-0)));
          glEnd();
       }
 
 };
 
 
-class LettersArray
-{
+class LettersArray{
 public:
-    char array[10000] = "" ;
-    int letter_length = 0;
+   char array[10000] = "" ;
+   int lines[1000]={};
+   int end_line[1000] = {};
+   int letter_length = 0;
+   int letter_index = 0;
 
     void push(char letter){
-        array[letter_length++] = letter;
+         for(int i=letter_length;i>letter_index;i--){
+            array[i] = array[i-1];
+         }
+        array[letter_index++] = letter;
+        letter_length++;
     }
     void pop(){
-        letter_length = max(letter_length - 1, 0);
+      if(letter_index>0){
+         for(int i=letter_index;i<letter_length;i++){
+            array[i-1] = array[i];
+         }
+
+         
+         letter_length--;
+         letter_index--;
+      }
+        
+        
     }
+    void left(){
+       letter_index = max(letter_index-1,0);
+    }
+    void right(){
+       letter_index = min(letter_index+1,letter_length);
+    }
+
+
+   
+   void up(){
+      int index=0;
+      int line = 1;
+      int line_width=0;
+
+      while(index<=letter_index){
+         if(index+lines[line] >= letter_index){
+            line_width = letter_index - index;
+            if(line>1){
+               letter_index=index-1;
+               if(lines[line-1]>=line_width){
+                  letter_index =letter_index - lines[line-1]+line_width+1;
+               }
+            }else{
+               letter_index=0;
+            }
+            
+            break;
+         }else{
+            index+=lines[line];
+            line++;
+         }
+            
+            
+      }
+
+
+   }
+
+   void down(){
+      int index=0;
+      int line = 1;
+      while(index<=letter_index){
+         if(index+lines[line] >= letter_index){
+
+            if(index+lines[line]+1 <=letter_length){
+               letter_index=index+lines[line]+1;
+               
+
+            }else{
+               letter_index=letter_length;
+            }
+            
+            break;
+         }else{
+            index+=lines[line];
+            line++;
+         }
+            
+            
+      }
+   }
+
 };
 
 LettersArray lettersArray;
@@ -338,6 +440,9 @@ class LettersPointer {
 
       LettersPointer(int line_size){
          this->line_size = line_size;
+         memset(lettersArray.lines, 0, 1000*sizeof(int));
+         memset(lettersArray.end_line, 0, 1000*sizeof(int));
+         
          
       }
 
@@ -351,7 +456,7 @@ class LettersPointer {
       // return start,end  if both are 0 then there is no new line
       pair<int,int> get_next_line(){
          this->current_line_num++;
-         cursor.set_n_lines(current_line_num);
+         
          int index = this->current_index;
          while(index < lettersArray.letter_length){
             
@@ -360,14 +465,14 @@ class LettersPointer {
                int start = this->current_index;
                this->current_index = index+1;
                this->current_line_width = index-start;
-               cursor.add_line();
-               cursor.set_line_width(0);
-               return {start,index}; // not including the new lien
+               lettersArray.lines[this->current_line_num] = this->current_line_width+1;
+               lettersArray.end_line[this->current_line_num] = 1;
+               return {start,index}; // not including the new line
             }
             else if((index-current_index) >= this->line_size){
                int start = this->current_index;
                this->current_index = index;
-               cursor.set_line_width(50);
+               lettersArray.lines[this->current_line_num] = this->line_size;
                return {start,index};
             } 
             
@@ -377,7 +482,10 @@ class LettersPointer {
          }
 
          finished = true;
-         cursor.set_line_width(index-this->current_index);
+         // cursor.set_line_width(index-this->current_index);
+         // cursor.set_n_lines(this->current_line_num);
+         lettersArray.lines[this->current_line_num] = index-this->current_index;
+         cursor.set_position(lettersArray.lines,lettersArray.end_line,lettersArray.letter_index);
          return {this->current_index,index};
 
          
@@ -425,38 +533,54 @@ void reshape(int w, int h)
 
 
 void save_file(){
-   if(file_name!="null"){
+   if(file_name=="null"){
+      file_name="temp.txt";
+   }
 
-      freopen(file_name, "w", stdout);
+   freopen(file_name, "w", stdout);
 
-      for(int i=0;i<lettersArray.letter_length;i++){
-         cout<<lettersArray.array[i];
-      }
-   }      
+   for(int i=0;i<lettersArray.letter_length;i++){
+      cout<<lettersArray.array[i];
+   }
+   fclose(stdout);
+      
+      
       
 }
 
 void keyboard(unsigned char key, int x, int y)
 {
-   
 
-       if (int(key) == 8){
-        lettersArray.pop();
-    }else if  ( int(key) >= 32 && int(key) <= 127) {
-        lettersArray.push(key);
-    
-    }else if(key == 27){
-       save_file();
-       exit(0);
-    }else if(key == 13){
-      lettersArray.push('\n');
-    }else if(key == 9){
-      //lettersArray.push('\t');
-       lettersArray.push(' ');
-       lettersArray.push(' ');
-       lettersArray.push(' ');
-       lettersArray.push(' ');
-    }
+   
+      if (int(key) == 8){ // backspace
+         lettersArray.pop();
+      }else if(key == 9){ // tab
+         //lettersArray.push('\t');
+         lettersArray.push(' ');
+         lettersArray.push(' ');
+         lettersArray.push(' ');
+         lettersArray.push(' ');
+      }else if(key == 13){ // \n
+         lettersArray.push('\n');
+      }else if(key == 19){ // ctrl + S
+         save_file();
+      }else if(key == 27){ // exit
+         exit(0);
+      }else if(int(key) == 40){ // (
+         lettersArray.push(key);
+         lettersArray.push(key+1);
+         lettersArray.letter_index--;
+      }else if(int(key) == 123 || int(key) == 91){ // { , [
+         lettersArray.push(key);
+         lettersArray.push(key+2);
+         lettersArray.letter_index--;
+      }else if(int(key) == 39 || int(key) == 34){ // ',"
+         lettersArray.push(key);
+         lettersArray.push(key);
+         lettersArray.letter_index--;
+      }else if  ( int(key) >= 32 && int(key) <= 127) { // letters or numbers or sympols
+         lettersArray.push(key);    
+      }
 
     glutPostRedisplay();
 
@@ -468,7 +592,20 @@ void specialKeys(int key, int x, int y)
        set_font(16);
     }else if(key == GLUT_KEY_PAGE_DOWN){
          set_font(8);
+    }else if(key == GLUT_KEY_LEFT){
+       lettersArray.left();
+    }else if(key == GLUT_KEY_RIGHT){
+       lettersArray.right();
+    }else if(key == GLUT_KEY_UP){
+       //lettersArray.up();
+    }else if(key == GLUT_KEY_DOWN){
+       //lettersArray.down();
+    }else if(key == GLUT_KEY_HOME){
+       lettersArray.letter_index=0;
+    }else if(key == GLUT_KEY_END){
+       lettersArray.letter_index=lettersArray.letter_length;
     }
+             
         
        
     
